@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79d5c24c231dc340b3093242b8a1750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  citySizeX: 5
-  citySizeY: 5
+  citySizeX: 16
+  citySizeY: 16
   procRoads: 0.55
   minProcRoads: 0.3
   nrEntrances: 3

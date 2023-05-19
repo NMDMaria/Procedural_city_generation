@@ -44,7 +44,7 @@ public class ObjectControl : MonoBehaviour
     void Generate()
     {
         perlinGenerator.Generate();
-        roadGenerator.Generate();
+        //roadGenerator.Generate();
         //gridSpawner.Generate();
     }
 

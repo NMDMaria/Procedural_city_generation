@@ -58,16 +58,47 @@ public class PerlinGenerator : MonoBehaviour
         perlinTexture = new Texture2D(textureX, textureY);
         perlinOffset = new Vector2(Random.Range(0, 99999), Random.Range(0, 99999));
 
+        float threshold = 0.2f; // Set your desired threshold value here
+
         for (int i = 0; i < textureX; i++)
         {
             for (int j = 0; j < textureY; j++)
             {
-                perlinTexture.SetPixel(i, j, ColorPixel(i, j));
+                Color pixelColor = ColorPixel(i, j);
+                if (pixelColor.grayscale < threshold)
+                    perlinTexture.SetPixel(i, j, Color.white); // Use white color for values less than the threshold
+                else
+                    perlinTexture.SetPixel(i, j, Color.black); // Use black color for values greater than or equal to the threshold
             }
         }
 
         perlinTexture.Apply();
         visualizationUI.texture = perlinTexture;
+
+        // Create the matrix
+        int[,] matrix = new int[textureX, textureY];
+        for (int i = 0; i < textureX; i++)
+        {
+            for (int j = 0; j < textureY; j++)
+            {
+                Color pixelColor = perlinTexture.GetPixel(i, j);
+                matrix[i, j] = pixelColor == Color.white ? 1 : 0;
+            }
+        }
+
+        string output = "";
+        for (int i = 0; i < textureX; i++)
+        {
+            for (int j = 0; j < textureY; j++)
+            {
+                output += matrix[i, j] + " ";
+            }
+            output += "\n";
+        }
+        Debug.Log(output);
+
+        // Now you have the matrix where a colored pixel less than the threshold means 1 and else 0
+        // You can use the 'matrix' variable in your desired way
     }
 
     Color ColorPixel(int i, int j)
