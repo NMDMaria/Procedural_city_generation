@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+//using System.Diagnostics;
 using System.Security.Principal;
 using UnityEngine;
 
@@ -210,7 +211,7 @@ public class Parcuri : MonoBehaviour
             for (int i = 0; i < topE.Count; i++)
             {
                 int idx = Random.Range(0, botE.Count - 1);
-                if (idx < 0)
+                if (botE.Count <= 0)
                     break;
                 BFS.getPath(matrix, topE[i].x, topE[i].y, botE[idx].x, botE[idx].y);
                 botE.RemoveAt(idx);
@@ -219,7 +220,7 @@ public class Parcuri : MonoBehaviour
             for (int i = 0; i < leftE.Count; i++)
             {
                 int idx = Random.Range(0, rightE.Count - 1);
-                if (idx < 0)
+                if (rightE.Count <= 0)
                     break;
                 BFS.getPath(matrix, leftE[i].x, leftE[i].y, rightE[idx].x, rightE[idx].y);
                 rightE.RemoveAt(idx);
