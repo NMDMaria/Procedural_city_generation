@@ -79,8 +79,8 @@ public class Parcuri : MonoBehaviour
             int replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             int replaced = 0;
 
-            //for(int i = 0; i < replaceCount; i++)
-            while(replaced < replaceCount)
+            for(int i = 0; i < replaceCount; i++)
+            //while(replaced < replaceCount)
             {
                 int randomPosition = UnityEngine.Random.Range(1, m);
                 if(l1[randomPosition] == '0')
@@ -108,8 +108,8 @@ public class Parcuri : MonoBehaviour
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            //for (int i = 0; i < replaceCount; i++)
-            while (replaced < replaceCount)
+            for (int i = 0; i < replaceCount; i++)
+            //while (replaced < replaceCount)
 
             {
                 int randomPosition = UnityEngine.Random.Range(1, m);
@@ -137,8 +137,8 @@ public class Parcuri : MonoBehaviour
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            //for (int i = 0; i < replaceCount; i++)
-            while (replaced < replaceCount)
+            for (int i = 0; i < replaceCount; i++)
+            //while (replaced < replaceCount)
 
             {
                 int randomPosition = UnityEngine.Random.Range(1, n);
@@ -166,8 +166,8 @@ public class Parcuri : MonoBehaviour
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            //for (int i = 0; i < replaceCount; i++)
-            while (replaced < replaceCount)
+            for (int i = 0; i < replaceCount; i++)
+            //while (replaced < replaceCount)
 
             {
                 int randomPosition = UnityEngine.Random.Range(1, n);
