@@ -15,7 +15,6 @@ public class Parcuri : MonoBehaviour
 
     public PerlinGenerator perlinGenerator;
 
-
     // Start is called before the first frame update
     void Start()
     {
