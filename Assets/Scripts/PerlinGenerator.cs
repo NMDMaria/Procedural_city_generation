@@ -46,19 +46,13 @@ public class PerlinGenerator : MonoBehaviour
         
     }
 
-    public int[,] Generate()
-    {
-       return  GenerateNoise();
-
-        // 
-    }
-
-    private int[,] GenerateNoise()
+    public char[,] Generate()
     {
         perlinTexture = new Texture2D(textureX, textureY);
         perlinOffset = new Vector2(Random.Range(0, 99999), Random.Range(0, 99999));
 
         float threshold = 0.2f; // Set your desired threshold value here
+        char[,] matrix = new char[textureX, textureY];
 
         for (int i = 0; i < textureX; i++)
         {
@@ -66,25 +60,20 @@ public class PerlinGenerator : MonoBehaviour
             {
                 Color pixelColor = ColorPixel(i, j);
                 if (pixelColor.grayscale < threshold)
+                {
                     perlinTexture.SetPixel(i, j, Color.white); // Use white color for values less than the threshold
+                    matrix[i, j] = 'P';
+                }
                 else
+                {
                     perlinTexture.SetPixel(i, j, Color.black); // Use black color for values greater than or equal to the threshold
+                    matrix[i, j] = '0';
+                }
             }
         }
 
         perlinTexture.Apply();
         visualizationUI.texture = perlinTexture;
-
-        // Create the matrix
-        int[,] matrix = new int[textureX, textureY];
-        for (int i = 0; i < textureX; i++)
-        {
-            for (int j = 0; j < textureY; j++)
-            {
-                Color pixelColor = perlinTexture.GetPixel(i, j);
-                matrix[i, j] = pixelColor == Color.white ? 1 : 0;
-            }
-        }
 
         string output = "";
         for (int i = 0; i < textureX; i++)
@@ -98,9 +87,6 @@ public class PerlinGenerator : MonoBehaviour
         //Debug.Log(output);
 
         return matrix;
-
-        // Now you have the matrix where a colored pixel less than the threshold means 1 and else 0
-        // You can use the 'matrix' variable in your desired way
     }
 
     Color ColorPixel(int i, int j)
