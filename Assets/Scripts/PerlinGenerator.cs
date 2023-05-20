@@ -46,14 +46,14 @@ public class PerlinGenerator : MonoBehaviour
         
     }
 
-    public void Generate()
+    public int[,] Generate()
     {
-        GenerateNoise();
+       return  GenerateNoise();
 
         // 
     }
 
-    private void GenerateNoise()
+    private int[,] GenerateNoise()
     {
         perlinTexture = new Texture2D(textureX, textureY);
         perlinOffset = new Vector2(Random.Range(0, 99999), Random.Range(0, 99999));
@@ -95,7 +95,9 @@ public class PerlinGenerator : MonoBehaviour
             }
             output += "\n";
         }
-        Debug.Log(output);
+        //Debug.Log(output);
+
+        return matrix;
 
         // Now you have the matrix where a colored pixel less than the threshold means 1 and else 0
         // You can use the 'matrix' variable in your desired way
