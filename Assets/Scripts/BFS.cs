@@ -7,6 +7,31 @@ public class BFS: MonoBehaviour
     private static int[] dx = { -1, 0, 1, 0 }; // Offsets for moving in four directions: up, right, down, left
     private static int[] dy = { 0, 1, 0, -1 };
 
+    private static bool checkRoadPlacement(char[,] matrix, int x, int y) {
+        int rows = matrix.GetLength(0);
+        int columns = matrix.GetLength(1);
+        if (y > 0 && x > 0 && x + 1 < rows && y + 1< columns) {
+            //Stanga jos
+            if (matrix[x, y] == '0' && matrix[x - 1, y] == 'D' && matrix[x, y + 1] == 'D' && matrix[x - 1, y + 1] == 'D') {
+                return false;
+            }
+            //Stanga sus
+            if (matrix[x, y] == '0' && matrix[x + 1, y] == 'D' && matrix[x, y + 1] == 'D' && matrix[x + 1, y + 1] == 'D') {
+                return false;
+            }
+            //Dreapta sus
+            if (matrix[x, y] == '0' && matrix[x - 1, y - 1] == 'D' && matrix[x + 1, y] == 'D' && matrix[x + 1, y - 1] == 'D') {
+                return false;
+            }
+            //Dreapta jos
+            if (matrix[x, y] == '0' && matrix[x - 1, y] == 'D' && matrix[x - 1, y - 1] == 'D' && matrix[x, y - 1] == 'D') {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     public static bool ShortestPath(char[,] matrix, int startX, int startY, int targetX, int targetY, out List<(int, int)> path)
     {
         int rows = matrix.GetLength(0);
@@ -56,7 +81,7 @@ public class BFS: MonoBehaviour
                 int ny = y + dy[i];
 
                 // Check if the neighbor is within the matrix bounds and is not an obstacle
-                if (nx >= 0 && nx < rows && ny >= 0 && ny < columns && matrix[nx, ny] != 'P' && !visited[nx, ny])
+                if (nx >= 0 && nx < rows && ny >= 0 && ny < columns && matrix[nx, ny] != 'P' && !visited[nx, ny] && checkRoadPlacement(matrix, nx, ny))
                 {
                     visited[nx, ny] = true;
                     distance[nx, ny] = distance[x, y] + 1;
