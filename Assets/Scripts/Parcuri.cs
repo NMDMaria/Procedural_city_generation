@@ -79,10 +79,13 @@ public class Parcuri : MonoBehaviour
             int replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             int replaced = 0;
 
-            for(int i = 0; i < replaceCount; i++)
-            //while(replaced < replaceCount)
+            Debug.Log("Nr. of roads: ");
+            Debug.Log(replaceCount);
+            
+            while (replaced < replaceCount)
             {
                 int randomPosition = UnityEngine.Random.Range(1, m);
+
                 if(l1[randomPosition] == '0')
                 {
                     if(randomPosition>0 && l1[randomPosition - 1] != 'D' && randomPosition < m - 1 && l1[randomPosition + 1] != 'D')
@@ -93,24 +96,13 @@ public class Parcuri : MonoBehaviour
                     }
                     
                 }
-
-                if (replaced >= replaceCount)
-                    break;
             }
 
-
-            //Debug.Log("Updated l1:");
-            //printArr(l1);
-
-            
-            
             //l2
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            for (int i = 0; i < replaceCount; i++)
-            //while (replaced < replaceCount)
-
+            while (replaced < replaceCount)
             {
                 int randomPosition = UnityEngine.Random.Range(1, m);
                 if (l2[randomPosition] == '0')
@@ -121,25 +113,13 @@ public class Parcuri : MonoBehaviour
                         l2[randomPosition] = 'D';
                         replaced++;
                     }
-
                 }
-
-                if (replaced >= replaceCount)
-                    break;
             }
 
-
-            //Debug.Log("Updated l2:");
-            //printArr(l2);
-
-
-            //c1
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            for (int i = 0; i < replaceCount; i++)
-            //while (replaced < replaceCount)
-
+            while (replaced < replaceCount)
             {
                 int randomPosition = UnityEngine.Random.Range(1, n);
                 if (c1[randomPosition] == '0')
@@ -150,25 +130,14 @@ public class Parcuri : MonoBehaviour
                         c1[randomPosition] = 'D';
                         replaced++;
                     }
-
                 }
-
-                if (replaced >= replaceCount)
-                    break;
             }
 
 
-            //Debug.Log("Updated c1:");
-            //printArr(c1);
-
-
-            //c2
             replaceCount = UnityEngine.Random.Range(1, 4); // Random number between 1 and 3
             replaced = 0;
 
-            for (int i = 0; i < replaceCount; i++)
-            //while (replaced < replaceCount)
-
+            while (replaced < replaceCount)
             {
                 int randomPosition = UnityEngine.Random.Range(1, n);
                 if (c2[randomPosition] == '0')
@@ -182,9 +151,6 @@ public class Parcuri : MonoBehaviour
                     }
 
                 }
-
-                if (replaced >= replaceCount)
-                    break;
             }
 
 
