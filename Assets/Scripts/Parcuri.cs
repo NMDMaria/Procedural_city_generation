@@ -338,10 +338,24 @@ public class Parcuri : MonoBehaviour
 
     List<GameObject> roadInstances = new List<GameObject>();
     List<GameObject> grassInstances = new List<GameObject>();
+    List<GameObject> buildInstances = new List<GameObject>();
+    UnityEngine.Object[] buildings;
+    GameObject[] buildings_prefabs;
+
     private void genDrum(){
         int tileSize = 3;
         GameObject road;
         GameObject grass;
+
+        buildings = Resources.LoadAll("Buildings");
+        buildings_prefabs = new GameObject[buildings.Length];
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            buildings_prefabs[i] = (GameObject)buildings[i];
+            buildings_prefabs[i].transform.position = new Vector3(0, 0, 0);
+            buildings_prefabs[i].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        }
+
         road = Resources.Load<GameObject>("Roads/road_black");
         grass = Resources.Load<GameObject>("Roads/green");
         for (int i=0; i<x; ++i){
@@ -355,6 +369,40 @@ public class Parcuri : MonoBehaviour
                     grassInstances.Add(Instantiate(grass));
                     grassInstances[grassInstances.Count - 1].transform.position = new Vector3(3 * i, 1, 3 * j);
                 }
+                else if (matrix[i, j] == '0')
+                {
+                    bool found_building = false;
+                    while (found_building == false)
+                    {
+                        found_building = true;
+                        int index_b = UnityEngine.Random.Range(0, buildings_prefabs.Length);
+                        //bool oreintation = Random.Range(0, 2) == 1;
+                        int xb = buildings_prefabs[index_b].GetComponent<BuildingSize>().x;
+                        int yb = buildings_prefabs[index_b].GetComponent<BuildingSize>().y;
+                        //Debug.Log(xb+" "+yb);
+
+                        if (xb+i > x || yb+j > y)
+                            continue;
+
+                        for (int k=0; k < xb; ++k)
+                            for (int l=0; l < yb; ++l)
+                                if (matrix[i+k, j+l] != '0')
+                                    found_building = false;
+
+                        if (found_building == false)
+                            continue;
+
+                        for (int k=0; k < xb; ++k)
+                            for (int l=0; l < yb; ++l)
+                                matrix[i+k, j+l] = 'B';
+                        float bx = i+(xb/2);
+                        float by = j+(yb/2);
+
+                        buildInstances.Add(Instantiate(buildings_prefabs[index_b]));
+                        buildInstances[buildInstances.Count - 1].transform.position = new Vector3(3*bx, 1, 3*by);
+                    }
+                    
+                }
             }
         }
 
@@ -367,7 +415,12 @@ public class Parcuri : MonoBehaviour
         for (int i = 0; i < grassInstances.Count; ++i)
             Destroy(grassInstances[i]);
         grassInstances.Clear();
+        for (int i = 0; i < buildInstances.Count; ++i)
+            Destroy(buildInstances[i]);
+        buildInstances.Clear();
     }
+
+
 }
 
 
