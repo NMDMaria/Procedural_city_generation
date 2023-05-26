@@ -41,8 +41,8 @@ public class Parcuri : MonoBehaviour
 
     private int maxEntries(int n)
     {
-        int result = (int)Math.Floor(Math.Sqrt(n));
-        return result+ 1;
+        int result = 2 * (int)Math.Floor(Math.Sqrt(n));
+        return Mathf.Max(2, result);
     }
 
     // Update is called once per frame
@@ -107,9 +107,9 @@ public class Parcuri : MonoBehaviour
                     
                 }
             }
-            Debug.Log(" l1:");
+            // Debug.Log(" l1:");
 
-            printArr(l1);
+            // printArr(l1);
 
             //l2
             replaceCount = UnityEngine.Random.Range(1, maxM); // Random number between 1 and 2
@@ -128,9 +128,9 @@ public class Parcuri : MonoBehaviour
                     }
                 }
             }
-            Debug.Log(" l2:");
+            //Debug.Log(" l2:");
 
-            printArr(l2);
+            //printArr(l2);
 
             replaceCount = UnityEngine.Random.Range(1, maxN); // Random number between 1 and 2
              replaced = 0;
@@ -168,12 +168,12 @@ public class Parcuri : MonoBehaviour
 
                 }
             }
-            Debug.Log(" c1:");
+            //Debug.Log(" c1:");
 
-            printArr(c1);
-            Debug.Log(" c2:");
+            //printArr(c1);
+            //Debug.Log(" c2:");
 
-            printArr(c2);
+            //printArr(c2);
 
 
             //Debug.Log("Updated c2:");
@@ -226,7 +226,7 @@ public class Parcuri : MonoBehaviour
                 output += "\n";
             }
 
-            Debug.Log(output);
+            //Debug.Log(output);
 
             genDrum();
         }
@@ -297,7 +297,7 @@ public class Parcuri : MonoBehaviour
 
             if (matrix[x - 1, j] == 'D')
             {
-                if (matrix[x - 1, j + 1] != 'D' && matrix[x - 1, j - 1] != 'D' && matrix[x - 1, j] != 'D')
+                if (matrix[x - 1, j + 1] != 'D' && matrix[x - 1, j - 1] != 'D' && matrix[x - 2, j] != 'D')
                 {
                     // isolated case
                     matrix[x - 1, j] = '0';
@@ -321,7 +321,7 @@ public class Parcuri : MonoBehaviour
 
             if (matrix[i, y - 1] == 'D')
             {
-                if (matrix[i + 1, y - 1] != 'D' && matrix[i - 1, y - 1] != 'D' && matrix[i, y - 1] != 'D')
+                if (matrix[i + 1, y - 1] != 'D' && matrix[i - 1, y - 1] != 'D' && matrix[i, y - 2] != 'D')
                 {
                     // isolated case
                     matrix[i, y - 1] = '0';

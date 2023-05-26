@@ -51,7 +51,7 @@ public class PerlinGenerator : MonoBehaviour
         perlinTexture = new Texture2D(textureX, textureY);
         perlinOffset = new Vector2(Random.Range(0, 99999), Random.Range(0, 99999));
 
-        float threshold = 0.2f; // Set your desired threshold value here
+        float threshold = 0.3f; // Set your desired threshold value here
         char[,] matrix = new char[textureX, textureY];
 
         for (int i = 0; i < textureX; i++)
