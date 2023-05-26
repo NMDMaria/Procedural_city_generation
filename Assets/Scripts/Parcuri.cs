@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Security.Principal;
 using UnityEngine;
 
 public class Parcuri : MonoBehaviour
@@ -400,8 +399,9 @@ public class Parcuri : MonoBehaviour
 
                         buildInstances.Add(Instantiate(buildings_prefabs[index_b]));
                         buildInstances[buildInstances.Count - 1].transform.position = new Vector3(3*bx, 1, 3*by);
+
                     }
-                    
+
                 }
             }
         }

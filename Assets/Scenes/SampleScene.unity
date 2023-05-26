@@ -480,8 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b439ec12c7ad3e48882d533c108a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureX: 64
-  textureY: 64
+  textureX: 24
+  textureY: 24
   perlinTexture: {fileID: 0}
   noiseScale: 5
   perlinOffset: {x: 2, y: 2}
