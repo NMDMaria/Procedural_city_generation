@@ -206,7 +206,7 @@ public class Parcuri : MonoBehaviour
 
             Debug.Log(output);
 
-
+            // genDrum();
         }
     }
 
@@ -312,6 +312,21 @@ public class Parcuri : MonoBehaviour
     private char[,] Generate()
     {
         return perlinGenerator.Generate();
+    }
+
+    private void genDrum(){
+        int tileSize = 3;
+        List<GameObject> roadInstances = new List<GameObject>();
+        GameObject road;
+        road = Resources.Load<GameObject>("Roads/road_black");
+        for (int i=0; i<x; ++i){
+            for (int j=0; j<y; ++j){
+                if (matrix[i, j] == 'D'){
+                    roadInstances.Add(Instantiate(road));
+                    roadInstances[roadInstances.Count - 1].transform.position = new Vector3(3*i, 1, 3*y);
+                }
+            }
+        }
     }
 }
 /*int[] l1 = new int[m];
