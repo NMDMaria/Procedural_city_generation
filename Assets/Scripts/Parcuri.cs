@@ -191,56 +191,7 @@ public class Parcuri : MonoBehaviour
                 rightE.RemoveAt(idx);
             }
 
-
-
-            /*List<Vector2Int> margin = new List<Vector2Int>();
-
-            // Start with left side
-            for (int i = 0; i < x; i++)
-            {
-                margin.Add(new Vector2Int(i, 0));               
-            }
-
-            topE = AddEntrance(margin);
-
-            margin.Clear();
-
-            // Start with right side
-            for (int i = 0; i < x; i++)
-            {
-                margin.Add(new Vector2Int(i, y - 1));               
-            }
-
-            rightE = AddEntrance(margin);
-
-            margin.Clear();
-
-            // Start with top side
-            for (int j = 0; j < y; j++)
-            {
-                margin.Add(new Vector2Int(0, j));               
-            }
-
-            topE = AddEntrance(margin);
-
-            margin.Clear();
-
-            // Start with end side
-            for (int j = 0; j < y; j++)
-            {
-                margin.Add(new Vector2Int(x - 1, j));               
-            }
-
-            botE = AddEntrance(margin);*/
-
-
-            // for (int i = 0; i < topE.Count; i++)
-            // {
-            //     int connect_idx = Random.Range(0, botE.Count - 1);
-            //     BFS.getPath(matrix, topE[i].x, topE[i].y, botE[connect_idx].x, botE[connect_idx].y);
-            //     botE.RemoveAt(connect_idx);
-            // }
-
+            removeIsolated();
 
             string output = "";
 
@@ -305,6 +256,56 @@ public class Parcuri : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    private void removeIsolated()
+    {
+        for (int j = 1; j < y - 1; j++)
+        {
+            // 0 D 0 0 
+            // 0 0
+            if (matrix[0, j] == 'D')
+            {
+                if (matrix[0, j + 1] != 'D' && matrix[0, j - 1] != 'D' && matrix[1, j] != 'D')
+                {
+                    // isolated case
+                    matrix[0, j] = '0';
+                }
+            }
+
+            if (matrix[x - 1, j] == 'D')
+            {
+                if (matrix[x - 1, j + 1] != 'D' && matrix[x - 1, j - 1] != 'D' && matrix[x - 1, j] != 'D')
+                {
+                    // isolated case
+                    matrix[x - 1, j] = '0';
+                }
+            }
+        }
+
+        for (int i = 1; i < x - 1; i++)
+        {
+            // 0 
+            // D 0
+            // 0
+            if (matrix[i, 0] == 'D')
+            {
+                if (matrix[i + 1, 0] != 'D' && matrix[i - 1, 0] != 'D' && matrix[i, 1] != 'D')
+                {
+                    // isolated case
+                    matrix[i, 0] = '0';
+                }
+            }
+
+            if (matrix[i, y - 1] == 'D')
+            {
+                if (matrix[i + 1, y - 1] != 'D' && matrix[i - 1, y - 1] != 'D' && matrix[i, y - 1] != 'D')
+                {
+                    // isolated case
+                    matrix[i, y - 1] = '0';
+                }
+            }        
+        }
     }
 
 
