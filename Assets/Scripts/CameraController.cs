@@ -9,6 +9,9 @@ public class CameraController : MonoBehaviour
     public PerlinGenerator perlinGenerator;
     public float fieldOfView = 50f; // Camera's field of view
 
+    public Camera mainCamera; // Reference to the main camera
+    public GameObject objectWithCamera; // Object with the camera component
+
     private bool isActivated = false;
     private Vector3 topDownPosition;
     private Quaternion topDownRotation;
@@ -16,9 +19,14 @@ public class CameraController : MonoBehaviour
     private int cityY;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
+    private float rotationX = 0f;
 
     void Start()
     {
+        mainCamera.enabled = true;
+        objectWithCamera.GetComponent<Camera>().enabled = false;
+
+
         cityX = perlinGenerator.textureX;
         cityY = perlinGenerator.textureY;
         float maxCityDimension = Mathf.Max(3 * cityX, 3 * cityY);
@@ -30,8 +38,8 @@ public class CameraController : MonoBehaviour
         topDownRotation = Quaternion.Euler(90f, 0f, 0f);
 
         // Set the initial camera position and rotation to top-down view
-        transform.position = topDownPosition;
-        transform.rotation = topDownRotation;
+        mainCamera.transform.position = topDownPosition;
+        mainCamera.transform.rotation = topDownRotation;
 
         // Store the initial camera position
         initialPosition = new Vector3(0f, 1f, 0f);
@@ -43,7 +51,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             // Reset the camera position to the initial position
-            transform.position = initialPosition;
+            objectWithCamera.transform.position = initialPosition;
 
             cityX = perlinGenerator.textureX;
             cityY = perlinGenerator.textureY;
@@ -54,8 +62,8 @@ public class CameraController : MonoBehaviour
 
             if (!isActivated)
             {
-                transform.position = topDownPosition;
-                transform.rotation = topDownRotation;
+                mainCamera.transform.position = topDownPosition;
+                mainCamera.transform.rotation = topDownRotation;
             }
         }
 
@@ -66,17 +74,19 @@ public class CameraController : MonoBehaviour
 
             if (isActivated)
             {
-                // Set the camera to player mode
-                transform.position = initialPosition;
-                transform.rotation = initialRotation;
+                // Switch the camera to the one on the object
+                mainCamera.enabled = false;
+                objectWithCamera.GetComponent<Camera>().enabled = true;
             }
             else
             {
-                initialPosition = transform.position;
-                initialRotation = transform.rotation;
+                // Switch back to the main camera
+                mainCamera.enabled = true;
+                objectWithCamera.GetComponent<Camera>().enabled = false;
+
                 // Set the camera back to top-down view
-                transform.position = topDownPosition;
-                transform.rotation = topDownRotation;
+                mainCamera.transform.position = topDownPosition;
+                mainCamera.transform.rotation = topDownRotation;
             }
 
             // Lock or unlock the cursor based on isActivated
@@ -92,14 +102,14 @@ public class CameraController : MonoBehaviour
             float moveVertical = Input.GetAxis("Vertical");
 
             Vector3 moveDirection = new Vector3(moveHorizontal, 0f, moveVertical);
-            transform.Translate(moveDirection * movementSpeed * Time.deltaTime);
+            objectWithCamera.transform.Translate(moveDirection * movementSpeed * Time.deltaTime);
 
             // Rotate the camera
             float rotationX = Input.GetAxis("Mouse X");
             float rotationY = Input.GetAxis("Mouse Y");
 
-            transform.Rotate(Vector3.up, rotationX * rotationSpeed * Time.deltaTime);
-            transform.Rotate(Vector3.left, rotationY * rotationSpeed * Time.deltaTime);
+            objectWithCamera.transform.Rotate(Vector3.up, rotationX * rotationSpeed * Time.deltaTime);
+            objectWithCamera.transform.Rotate(Vector3.left, rotationY * rotationSpeed * Time.deltaTime);
         }
     }
 }
