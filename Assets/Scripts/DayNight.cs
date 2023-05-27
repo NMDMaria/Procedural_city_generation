@@ -6,19 +6,27 @@ using UnityEngine;
 [ExecuteAlways]
 public class DayNight : MonoBehaviour
 {
-    public float dayDuration = 30f;
     public Light DirectionalLight;
 
     public LightingPreset Preset;
 
     [Range(0, 24)] public float TimeOfDay;
 
+    public GameObject parc;
+
+    private void Start()
+    {
+        parc = GameObject.FindGameObjectWithTag("Parc");
+    }
+
     private void Update()
     {
         if (Preset == null)
             return;
 
-        if (Application.isPlaying)
+        bool isCycle = parc.GetComponent<Parcuri>().isCycle;
+
+        if (Application.isPlaying && isCycle==true)
         {
             //(Replace with a reference to the game time)
             TimeOfDay += Time.deltaTime;
