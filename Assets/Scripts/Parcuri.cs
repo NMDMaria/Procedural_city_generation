@@ -346,13 +346,13 @@ public class Parcuri : MonoBehaviour
         GameObject road;
         GameObject grass;
 
-        buildings = Resources.LoadAll("Buildings");
+        buildings = Resources.LoadAll("Ghe");
         buildings_prefabs = new GameObject[buildings.Length];
         for (int i = 0; i < buildings.Length; i++)
         {
             buildings_prefabs[i] = (GameObject)buildings[i];
             buildings_prefabs[i].transform.position = new Vector3(0, 0, 0);
-            buildings_prefabs[i].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            // buildings_prefabs[i].transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
         road = Resources.Load<GameObject>("Roads/road_black");
@@ -361,12 +361,12 @@ public class Parcuri : MonoBehaviour
             for (int j=0; j<y; ++j){
                 if (matrix[i, j] == 'D'){
                     roadInstances.Add(Instantiate(road));
-                    roadInstances[roadInstances.Count - 1].transform.position = new Vector3(3*i, 1, 3*j);
+                    roadInstances[roadInstances.Count - 1].transform.position = new Vector3(3*i, 0, 3*j);
                 }
                 else if (matrix[i, j] == 'P')
                 {
                     grassInstances.Add(Instantiate(grass));
-                    grassInstances[grassInstances.Count - 1].transform.position = new Vector3(3 * i, 1, 3 * j);
+                    grassInstances[grassInstances.Count - 1].transform.position = new Vector3(3 * i, -0.1f, 3 * j);
                 }
                 else if (matrix[i, j] == '0')
                 {
@@ -378,6 +378,7 @@ public class Parcuri : MonoBehaviour
                         //bool oreintation = Random.Range(0, 2) == 1;
                         int xb = buildings_prefabs[index_b].GetComponent<BuildingSize>().x;
                         int yb = buildings_prefabs[index_b].GetComponent<BuildingSize>().y;
+                        float height = buildings_prefabs[index_b].GetComponent<BuildingSize>().h / 2;
                         //Debug.Log(xb+" "+yb);
 
                         if (xb+i > x || yb+j > y)
@@ -398,7 +399,7 @@ public class Parcuri : MonoBehaviour
                         float by = j+(yb/2);
 
                         buildInstances.Add(Instantiate(buildings_prefabs[index_b]));
-                        buildInstances[buildInstances.Count - 1].transform.position = new Vector3(3*bx, 1, 3*by);
+                        buildInstances[buildInstances.Count - 1].transform.position = new Vector3(3*bx, height, 3*by);
 
                     }
 
