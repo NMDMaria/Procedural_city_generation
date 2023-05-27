@@ -76,6 +76,16 @@ public class BFS: MonoBehaviour
         return true;
     }
 
+
+
+    private static int CalculateHeuristic(int x, int y, int targetX, int targetY)
+    {
+        // Manhattan distance as the heuristic function
+        return Math.Abs(x - targetX) + Math.Abs(y - targetY);
+    }
+
+
+
     public static bool ShortestPath(char[,] matrix, int startX, int startY, int targetX, int targetY, out List<(int, int)> path)
     {
         int rows = matrix.GetLength(0);
@@ -169,16 +179,124 @@ public class BFS: MonoBehaviour
         return false;
     }
 
-    private static void ConstructPath(char[,] matrix, int[,] parentX, int[,] parentY, int targetX, int targetY, out List<(int, int)> path)
+
+
+
+
+    public static bool ShortestPath2(char[,] matrix, int startX, int startY, int targetX, int targetY, out List<(int, int, int)> path)
     {
-        path = new List<(int, int)>();
+        int rows = matrix.GetLength(0);
+        int columns = matrix.GetLength(1);
+
+        bool[,] visited = new bool[rows, columns];
+        int[,] distance = new int[rows, columns];
+        int[,] parentX = new int[rows, columns];
+        int[,] parentY = new int[rows, columns];
+
+        // Initialize visited, distance, parentX, and parentY arrays
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                visited[i, j] = false;
+                distance[i, j] = int.MaxValue;
+                parentX[i, j] = -1;
+                parentY[i, j] = -1;
+            }
+        }
+
+        // Mark the starting point as visited and initialize its distance as 0
+        visited[startX, startY] = true;
+        distance[startX, startY] = 0;
+
+        PriorityQueue<(int, int, int)> openSet = new PriorityQueue<(int, int, int)>(Comparer<(int, int, int)>.Create((a, b) => a.Item3.CompareTo(b.Item3)));
+        openSet.Enqueue((startX, startY, 0));
+
+        while (openSet.Count > 0)
+        {
+            var current = openSet.Dequeue();
+            int x = current.Item1;
+            int y = current.Item2;
+            int gScore = current.Item3;
+
+
+
+
+            // If the target point is reached, construct the path and return true
+            if (x == targetX && y == targetY)
+            {
+                ConstructPath2(matrix, parentX, parentY, x, y, out path);
+
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < matrix.GetLength(1); j++)
+                    {
+                        if (matrix[i, j] == 'd')
+                        {
+                            matrix[i, j] = '0';
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            // Explore the neighbors of the current point
+            for (int i = 0; i < 4; i++)
+            {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                int hScore = CalculateHeuristic(x, y, targetX, targetY);
+
+                // Calculate the total score (gScore + hScore) for the priority queue
+                int fScore = gScore + hScore;
+
+
+                // Check if the neighbor is within the matrix bounds and is not an obstacle
+                if (nx >= 0 && nx < rows && ny >= 0 && ny < columns && matrix[nx, ny] != 'P' && !visited[nx, ny] && checkRoadPlacement(matrix, nx, ny))
+                {
+                    if (matrix[nx, ny] != 'D')
+                        matrix[nx, ny] = 'd';
+                    visited[nx, ny] = true;
+                    distance[nx, ny] = distance[x, y] + 1;
+                    parentX[nx, ny] = x;
+                    parentY[nx, ny] = y;
+                    openSet.Enqueue((nx, ny, fScore));
+                }
+            }
+        }
+
+        // If the target point is not reachable, return false and an empty path
+        path = new List<(int, int,int )>();
+
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                if (matrix[i, j] == 'd')
+                {
+                    matrix[i, j] = '0';
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
+    private static void ConstructPath2(char[,] matrix, int[,] parentX, int[,] parentY, int targetX, int targetY, out List<(int, int, int)> path)
+    {
+        path = new List<(int, int,int)>();
         int x = targetX;
         int y = targetY;
 
         while (x != -1 && y != -1)
         {
             
-            path.Add((x, y));
+            path.Add((x, y, matrix[x, y]));
             int px = parentX[x, y];
             int py = parentY[x, y];
             x = px;
@@ -188,6 +306,31 @@ public class BFS: MonoBehaviour
 
         path.Reverse(); // Reverse the path to get the correct order
     }
+
+    private static void ConstructPath(char[,] matrix, int[,] parentX, int[,] parentY, int targetX, int targetY, out List<(int, int)> path)
+    {
+        path = new List<(int, int)>();
+        int x = targetX;
+        int y = targetY;
+
+        while (x != -1 && y != -1)
+        {
+
+            path.Add((x, y));
+            int px = parentX[x, y];
+            int py = parentY[x, y];
+            x = px;
+            y = py;
+
+        }
+
+        path.Reverse(); // Reverse the path to get the correct order
+    }
+
+
+
+
+
 
     public static void getPath(char[,] matrix, int startX, int startY, int targetX, int targetY)
     {
