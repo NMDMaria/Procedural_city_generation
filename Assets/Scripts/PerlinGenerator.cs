@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PerlinGenerator : MonoBehaviour
 {
@@ -21,11 +22,24 @@ public class PerlinGenerator : MonoBehaviour
     public float visualizationHeightScale = 5f;
     public RawImage visualizationUI;
 
+    public Slider slider;
+    public TextMeshProUGUI textObject;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        textureX = Mathf.RoundToInt(slider.value);
+        textureY = Mathf.RoundToInt(slider.value);
+        textObject.text = "City Size: 32";
+    }
+
+    public void OnSliderValueChanged()
+    {
+        // This method will be called whenever the value of the slider changes
+        textureX = Mathf.RoundToInt(slider.value);
+        textureY = Mathf.RoundToInt(slider.value);
+        textObject.text = "City Size: " + textureX;
     }
 
     void Awake()

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Parcuri : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class Parcuri : MonoBehaviour
     public int y;
 
     public int nrEntrances = 3;
+
+    public Toggle toggle;
+    public bool isCycle;
 
     public PerlinGenerator perlinGenerator;
 
@@ -22,8 +27,15 @@ public class Parcuri : MonoBehaviour
         // path find between oposing points => roads
         //matrix = Generate();
         //Debug.Log(matrix);
-
+        toggle.GetComponentInChildren<Text>().text = "Enable Day/Night Cycle";
+        isCycle = toggle.isOn;
     }
+
+    public void OnToggleValueChanged()
+    {
+        isCycle = toggle.isOn;
+    }
+
 
     private void printArr(char[] arr)
     {
@@ -359,6 +371,9 @@ public class Parcuri : MonoBehaviour
 
         road = Resources.Load<GameObject>("Roads/road_black");
         grass = Resources.Load<GameObject>("Roads/green");
+
+        Debug.Log(x);
+
         for (int i=0; i<x; ++i){
             for (int j=0; j<y; ++j){
                 if (matrix[i, j] == 'D'){
