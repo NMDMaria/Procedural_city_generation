@@ -1,12 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class PriorityQueue<T>
 {
     private List<T> data;
     private IComparer<T> comparer;
+
+    public PriorityQueue()
+    {
+        this.data = new List<T>();
+        this.comparer = Comparer<T>.Default;
+    }
 
     public PriorityQueue(IComparer<T> comparer)
     {
@@ -14,20 +18,21 @@ public class PriorityQueue<T>
         this.comparer = comparer;
     }
 
+    public int Count => data.Count;
+
     public void Enqueue(T item)
     {
         data.Add(item);
-        int i = data.Count - 1;
-        while (i > 0)
+        int childIndex = data.Count - 1;
+
+        while (childIndex > 0)
         {
-            int parent = (i - 1) / 2;
-            if (comparer.Compare(data[parent], data[i]) <= 0)
+            int parentIndex = (childIndex - 1) / 2;
+            if (comparer.Compare(data[parentIndex], data[childIndex]) <= 0)
                 break;
 
-            T tmp = data[parent];
-            data[parent] = data[i];
-            data[i] = tmp;
-            i = parent;
+            Swap(parentIndex, childIndex);
+            childIndex = parentIndex;
         }
     }
 
@@ -36,36 +41,45 @@ public class PriorityQueue<T>
         if (data.Count == 0)
             throw new InvalidOperationException("PriorityQueue is empty");
 
-        T frontItem = data[0];
         int lastIndex = data.Count - 1;
+        T frontItem = data[0];
         data[0] = data[lastIndex];
         data.RemoveAt(lastIndex);
 
-        int current = 0;
+        lastIndex--;
+
+        int parentIndex = 0;
         while (true)
         {
-            int childIndex = current * 2 + 1;
-            if (childIndex > lastIndex)
+            int leftChildIndex = parentIndex * 2 + 1;
+            if (leftChildIndex > lastIndex)
                 break;
 
-            int rightChildIndex = childIndex + 1;
-            if (rightChildIndex <= lastIndex && comparer.Compare(data[childIndex], data[rightChildIndex]) > 0)
-                childIndex = rightChildIndex;
+            int rightChildIndex = leftChildIndex + 1;
+            int childIndex = (rightChildIndex <= lastIndex && comparer.Compare(data[leftChildIndex], data[rightChildIndex]) > 0) ? rightChildIndex : leftChildIndex;
 
-            if (comparer.Compare(data[current], data[childIndex]) <= 0)
+            if (comparer.Compare(data[parentIndex], data[childIndex]) <= 0)
                 break;
 
-            T tmp = data[current];
-            data[current] = data[childIndex];
-            data[childIndex] = tmp;
-            current = childIndex;
+            Swap(parentIndex, childIndex);
+            parentIndex = childIndex;
         }
 
         return frontItem;
     }
 
-    public int Count
+    public T Peek()
     {
-        get { return data.Count; }
+        if (data.Count == 0)
+            throw new InvalidOperationException("PriorityQueue is empty");
+
+        return data[0];
+    }
+
+    private void Swap(int indexA, int indexB)
+    {
+        T temp = data[indexA];
+        data[indexA] = data[indexB];
+        data[indexB] = temp;
     }
 }

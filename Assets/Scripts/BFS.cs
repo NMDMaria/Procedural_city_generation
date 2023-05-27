@@ -209,7 +209,9 @@ public class BFS: MonoBehaviour
         visited[startX, startY] = true;
         distance[startX, startY] = 0;
 
-        PriorityQueue<(int, int, int)> openSet = new PriorityQueue<(int, int, int)>(Comparer<(int, int, int)>.Create((a, b) => a.Item3.CompareTo(b.Item3)));
+        IComparer<(int, int, int)> comparer = Comparer<(int, int, int)>.Create((a, b) => a.Item3.CompareTo(b.Item3));
+        PriorityQueue<(int, int, int)> openSet = new PriorityQueue<(int, int, int)>(comparer);
+
         openSet.Enqueue((startX, startY, 0));
 
         while (openSet.Count > 0)
@@ -362,6 +364,51 @@ public class BFS: MonoBehaviour
                 matrix[x, y] = 'K';
             }
 
+            //Debug.Log("Modified Matrix:");
+
+            output = "";
+            for (int i = 0; i <  matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    output += matrix[i, j] + " ";
+                }
+                output += "\n";
+            }
+            //Debug.Log(output);
+
+            foreach (var point in shortestPath)
+            {
+                int x = point.Item1;
+                int y = point.Item2;
+                matrix[x, y] = 'D';
+            }
+        }
+    }
+
+    public static void getPathAStar(char[,] matrix, int startX, int startY, int targetX, int targetY)
+    {
+        List<(int, int, int)> shortestPath;
+
+        string output = "";
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                output += matrix[i, j] + " ";
+            }
+            output += "\n";
+        }
+        //Debug.Log(output);
+
+        bool pathExists = ShortestPath2(matrix, startX, startY, targetX, targetY, out shortestPath);
+
+        if (!pathExists)
+        {
+            Debug.Log("Target point is not reachable.");
+        }
+        else
+        {
             //Debug.Log("Modified Matrix:");
 
             output = "";

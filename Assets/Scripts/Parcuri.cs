@@ -199,7 +199,8 @@ public class Parcuri : MonoBehaviour
                 int idx = UnityEngine.Random.Range(0, botE.Count - 1);
                 if (botE.Count <= 0)
                     break;
-                BFS.getPath(matrix, topE[i].x, topE[i].y, botE[idx].x, botE[idx].y);
+                //BFS.getPath(matrix, topE[i].x, topE[i].y, botE[idx].x, botE[idx].y);
+                BFS.getPathAStar(matrix, topE[i].x, topE[i].y, botE[idx].x, botE[idx].y);
                 botE.RemoveAt(idx);
             }
 
@@ -208,7 +209,8 @@ public class Parcuri : MonoBehaviour
                 int idx = UnityEngine.Random.Range(0, rightE.Count - 1);
                 if (rightE.Count <= 0)
                     break;
-                BFS.getPath(matrix, leftE[i].x, leftE[i].y, rightE[idx].x, rightE[idx].y);
+                //BFS.getPath(matrix, leftE[i].x, leftE[i].y, rightE[idx].x, rightE[idx].y);
+                BFS.getPathAStar(matrix, leftE[i].x, leftE[i].y, rightE[idx].x, rightE[idx].y);
                 rightE.RemoveAt(idx);
             }
 
