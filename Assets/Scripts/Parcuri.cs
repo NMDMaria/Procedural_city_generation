@@ -395,8 +395,13 @@ public class Parcuri : MonoBehaviour
                         for (int k=0; k < xb; ++k)
                             for (int l=0; l < yb; ++l)
                                 matrix[i+k, j+l] = 'B';
+
                         float bx = i+(xb/2);
                         float by = j+(yb/2);
+                        if (xb > 1)
+                            bx -= 0.5f;
+                        if (yb > 1)
+                            by -= 0.5f;
 
                         buildInstances.Add(Instantiate(buildings_prefabs[index_b]));
                         buildInstances[buildInstances.Count - 1].transform.position = new Vector3(3*bx, height, 3*by);
