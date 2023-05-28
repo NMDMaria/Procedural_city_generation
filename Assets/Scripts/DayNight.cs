@@ -26,11 +26,18 @@ public class DayNight : MonoBehaviour
 
         bool isCycle = parc.GetComponent<Parcuri>().isCycle;
 
-        if (Application.isPlaying && isCycle==true)
+        if (Application.isPlaying)
         {
-            //(Replace with a reference to the game time)
-            TimeOfDay += Time.deltaTime;
-            TimeOfDay %= 24; //Modulus to ensure always between 0-24
+            if (isCycle == true)
+            {
+                //(Replace with a reference to the game time)
+                TimeOfDay += Time.deltaTime;
+                TimeOfDay %= 24; //Modulus to ensure always between 0-24
+            }
+            else
+            {
+                TimeOfDay = 12;
+            }
             UpdateLighting(TimeOfDay / 24f);
         }
         else
